@@ -1,0 +1,4 @@
+FROM python
+COPY . /
+RUN make /fast_api_xgb
+CMD /fast_api_xgb/main.py
