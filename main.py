@@ -97,11 +97,22 @@ def predictor(resistanceNumberOfLines: int,  phaseZeroNumberOfLines: int, settin
 list1 = '/reports-9.csv'
 
 
-
+import os
+import datetime
+import shutil
 
 @app.get('/pretraining/')
 def pretraining(list1):
     x, y = data.clearing_data(list1)
     to_model = model.model(x, y)
+
+    #rename old model, and move to ahrcive
+    now = datetime.datetime.now()
+    date_time = now.strftime("%Y-%m-%d_%H-%M-%S")
+    new_file_name = "model" + date_time + ".joblib"
+    file_path = "/model.joblib"
+    archive = os.rename(file_path, new_file_name)
+    archive.move('/old_model')
+
     return dump(to_model, '/model.joblib')
 
